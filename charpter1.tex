@@ -69,4 +69,37 @@ Lua 的语句间不需要分隔符，如果你愿意，可以使用分号来分�
         % lua -i prog
 \end{verbatim}
 
-这条命令将运行 \verb|prog| 文件中的程序块
+这条命令将运行 \verb|prog| 文件中的程序块，然后显示交互提示。这种方式对于调试和手工测试尤其有用。在本章的最后，将看到独立解释器的其它参数。
+
+运行程序块的另一种方法是使用实时执行文件的 \verb|dofile| 函数。举个例子，假设有包含如下代码的 \verb|lib1.lua| 文件：
+
+\begin{verbatim}
+        function norm (x, y)
+          return (x^2 + y^2)^0.5
+        end
+
+        function twice (x)
+          return 2*x
+        end
+\end{verbatim}
+
+在交互模式下，输入：
+
+\begin{verbatim}
+        > dofile("lib1.lua")            -- 载入库文件
+        > n = norm(3.4, 1.0)
+        > print(twice(n))               --> 7.0880180586677
+\end{verbatim}
+
+\verb|dofile| 函数在测试代码片段时也很有用。可以在两个窗口中工作：一个窗口是代码编辑器（比如正编辑 \verb|prog.lua|），另一个则是以交互模式运行 Lua 的控制台。在保存了对代码的修改后，可以在 Lua console 运行 \verb|dofile("prog.lua")| 来加载新代码；然后试验新代码，调用函数并打印结果。
+
+\section{词法规约}
+
+Lua 中的标识符（或名字）可以是任何由字母、数字和下划线构成，但不以数字开头的字符串；例如：
+
+\begin{verbatim}
+        i       j       i10     _ij
+        aSomewhatLongName       _INPUT
+\end{verbatim}
+
+要避免使用以一个下划线开头，带有一个或多个大写字母的标识符（比如 \verb|_VERSION|）；
