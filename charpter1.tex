@@ -102,4 +102,36 @@ Lua 中的标识符（或名字）可以是任何由字母、数字和下划线�
         aSomewhatLongName       _INPUT
 \end{verbatim}
 
-要避免使用以一个下划线开头，带有一个或多个大写字母的标识符（比如 \verb|_VERSION|）；
+要避免使用以一个下划线开头，带有一个或多个大写字母的标识符（比如 \verb|_VERSION|）；他们在 Lua 中被保留作特殊用途。通常，我保留带有一个下划线的标识符用于虚变量。
+
+在旧版本的 Lua 中，字符的概念依赖于本地化环境。但是程序中的一些字符不能在不支持这些本地化的系统中运行。因此，Lua 5.2 仅允许使用 \verb|A-Z| 和 \verb|a-z| 作为标识符可用的字母。
+
+下面这些关键词是保留的；不能把它们用作标识符：
+
+\begin{verbatim}
+        and     break   do      else    elseif
+        end     false   goto    for     function
+        if      in      local   nil     not
+        or      repeat  return  then    true
+        until   while
+\end{verbatim}
+
+Lua 区分大小写： {\bfseries \verb|and|} 是一个保留字，但是 \verb|And| 和 \verb|AND| 是另两个不同的标识符。
+
+注解可以在任意位置以两个连字符开始直到行末。Lua 也支持块注释，以 \verb|--[[|开始，以 \verb|]]|结束。一个注释掉代码片段的小窍门就是把代码封在 \verb|[[| 和 \verb|]]| 之间，就像这样：
+
+\begin{verbatim}
+        --[[
+        print(10)               -- 不起作用（注释掉了）
+        --]]
+\end{verbatim}
+
+要激活这段代码，只需要在第一行前面添加一个连字符：
+
+\begin{verbatim}
+        ---[[
+        print(10)               --> 10
+        --]]
+\end{verbatim}
+
+前一个例子，第一行的 \verb|--[[| 是块注释的起始，而最后一行的两个连字符是注释的一部分。后一个例子，\verb|---[[| 序列开始了一个普通的单行注释，于是 第一行和最后一行变量了独立的注释。在这种情况下，\verb|print| 位于注释外面。
