@@ -1,0 +1,72 @@
+\chapter{入门}
+\setlength{\parindent}{2em}
+\small
+
+为了致敬传统，我们的第一个 lua 程序仅仅打印一句 “\verb|Hello World|" ：
+
+\begin{verbatim}
+        print("Hello World")
+\end{verbatim}
+
+如果你使用独立的Lua解释器，你需要调用解释器（通常叫做 \verb|lua| 或者 \verb|lua5.2|）运行你的第一个程序，在解释器后面带上包含你的程序的文本文件名。如果你把上面的程序保存在叫做 \verb|hello| 的文件中，使用如下命令运行它：
+
+\begin{verbatim}
+        % lua hello.lau
+\end{verbatim}
+
+再来一个更复杂的例子，下面的程序定义了一个计算给定数字的阶乘的函数，请求用户输入数字，并打印它的阶乘：
+
+\begin{verbatim}
+        -- 定义一个阶乘函数
+        function fact (n)
+          if n == 0 then
+            return 1
+          else
+            return n * fact(n-1)
+          end
+        end
+
+        print("enter a number:)
+        a = io.read("*n")               -- 读取一个数字
+        print(fact(a))
+\end{verbatim}
+
+\section{程序块（chunk）}
+
+Lua 执行的代码片段，例如一个文件或者交互模式下的一行代码，都被称为“程序块”。程序块就是命令序列（或者语句）。
+
+Lua 的语句间不需要分隔符，如果你愿意，可以使用分号来分隔语句。个人建议仅在两条或多条语句写在同一行时，使用分号。在 Lua 语法中，换行无意义；如下四个程序块都成立且意义相同：
+
+\begin{verbatim}
+        a = 1
+        b = a*2
+
+        a = 1;
+        b = a*2;
+
+        a = 1; b = a*2
+
+        a = 1 b = a*2                   -- 我很丑，可是我好用☺
+\end{verbatim}
+
+程序块可以简单到只有一条语句，就象 “\verb|Hello World|” 那个例子。也可以由句子和函数定义（后面我们会看到，它实际上就是赋值操作）混合组成，就象阶乘那个例子。如果你想，程序块可以很大。因为 Lua 也用作数据描述语言，带有几兆字节的程序块并不少见。Lua 解释器在处理大程序块方面完全没有问题。
+
+除了把程序写进文件，还可以在解释器中以交互模式运行。如果不带参数运行 \verb|lua|，将得到如下提示：
+
+\begin{verbatim}
+        % lua  
+        Lua 5.2 Copyright (C) 1994-2012 lua.org, PUC-Rio
+        >
+\end{verbatim}
+
+此后输入的每个命令（比如 \verb|print"Hello World"|）都将立即执行。要退出交互模式和解释器，只需输入文件结束控制符（在 \verb|UNIX| 中是 \verb|ctrl-D|，在 \verb|Windows| 中则是 \verb|ctrl-Z|），或者调用操作系统库的 \verb|exit| 函数，即输入 \verb|os.exit()|。
+
+在交互模式下， Lua 通常把输入的每一行视为一个完整的程序块。但是，如果发现某一行不足以构成完整的程序块，它会等待更多的输入，直到形成一个完整的程序块。通过这种方式 ，可以输入类似前面的阶乘函数那样的多行定义。不过，把定义写入文件并调用 Lua 运行这些文件，通常更实用方便。
+
+可以使用 \verb|-i| 参数通知 Lua 在运行给定的程序块后进入交互会话：
+
+\begin{verbatim}
+        % lua -i prog
+\end{verbatim}
+
+这条命令将运行 \verb|prog| 文件中的程序块
