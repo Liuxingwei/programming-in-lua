@@ -1,1 +1,30 @@
 \chapter{类型和值}
+
+Lua 是动态类型语言。其中没有类型定义，每个值持有自己的类型。
+
+Lua 中有 8 种基本类型： \verb|nil, boolean, number, string, userdata, function, thread, table|。\verb|type| 函数用于获取给定的值的类型名：
+\begin{verbatim}
+        print(type("Hello world"))              --> string
+        print(type(10.4*3))                     --> number
+        print(type(print))                      --> function
+        print(type(type))                       --> type
+        print(type(true))                       --> boolean
+        print(type(nil))                        --> nil
+        print(type(type(X)))                    --> string
+\end{verbatim}
+最后一行无论 \verb|X| 的值是什么，结果都是 ``string''，因为 \verb|type| 的值总是字符串。
+
+变量没有预定义类型，每个变量可以包含任意类型的值：
+\begin{verbatim}
+        print(type(a))                          --> nil (`a' 没有初始化)
+        a = 10
+        print(type(a))                          --> number
+        a = "a string!"
+        print(type(a))                          --> string
+        a = print                               --> 你没看错，这是正确的！
+        print(type(a))                          --> function
+\end{verbatim}
+注意最后两行：在 Lua 中，函数是一条值；所以我们能够像操作其它值一样操作它。（第六章将看到关于这一特性的更多详情。）
+
+通常，将同一变量用于不同类型，会造成混乱。但是，有时候，审慎地使用这一特性很有用，比如使用 nil 来区别正常的返回值和非正常情况。
+
